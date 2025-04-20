@@ -1,8 +1,10 @@
 import express from 'express';
+import dotenv from 'dotenv';
+
 import { connectToDB, closeDBConnection } from './Database/database.mjs';
 import { UserClass } from './Dashboard Methods/user.mjs';
 import { AdminClass } from './Dashboard Methods/admin.mjs';
-import dotenv from 'dotenv';
+import { EventsClass } from './Dashboard Methods/event.mjs';
 
 dotenv.config()
 
@@ -65,12 +67,13 @@ connectToDB().then(() => {
         if (!name || !email || !password) {
             return res.status(400).json({ success: false, message: 'Missing fields.' });
         }
+    
         try {
             const admin = new AdminClass(name, email, password);
             const result = await admin.register_admin();
             res.json(result);
         } catch (error) {
-            console.error('/admin/register error:', error); // Log actual error
+            console.error('/admin/register error:', error);
             res.status(500).json({ success: false, message: 'Internal server error.' });
         }
     });
@@ -105,10 +108,104 @@ connectToDB().then(() => {
         }
     });
 
+    app.put('/event/create-event', async (req,res) => {
+        const {title, description, date, location, capacity} = req.body;
+
+        if (!title || !description || !date || !location || !capacity){
+            return res.status(400).json({success: false, message: 'Missing fields.'});
+        }
+        try{
+            const event = new EventsClass(title, description, date, location, capacity);
+            const result = await event.create_event();
+            res.status(201).json(result);
+        }catch (error){
+            res.status(500).json({success: false, message: 'Internal server error.'})
+        }
+
+    });
+
+    app.get('/events', async (req, res) => {
+        try {
+            const result = await EventsClass.get_all_events();
+            res.json(result);
+        } catch (err) {
+            res.status(500).json({ success: false, message: 'Failed to get events.' });
+        }
+    });
+
+    app.get('/events/:id', async (req, res) => {
+        try {
+            const result = await EventsClass.get_event_by_id(req.params.id);
+            res.json(result);
+        } catch (err) {
+            res.status(500).json({ success: false, message: 'Failed to get event.' });
+        }
+    });
+
+    app.put('/events/:id', async (req, res) => {
+        const updates = req.body;
+
+        if (Object.keys(updates).length === 0) {
+            return res.status(400).json({ success: false, message: 'No updates provided.' });
+        }
+
+        try {
+            const result = await EventsClass.update_event(req.params.id, updates);
+            res.json(result);
+        } catch (err) {
+            res.status(500).json({ success: false, message: 'Failed to update event.' });
+        }
+    });
+
+    app.delete('/events/:id', async (req, res) => {
+        try {
+            const result = await EventsClass.delete_event(req.params.id);
+            res.json(result);
+        } catch (err) {
+            res.status(500).json({ success: false, message: 'Failed to delete event.' });
+        }
+    });
+
+    app.patch('/events/:id/register', async (req, res) => {
+        try {
+            const success = await EventsClass.increment_registration_count(req.params.id);
+            if (success) {
+                res.json({ success: true, message: 'Registered successfully.' });
+            } else {
+                res.status(404).json({ success: false, message: 'Event not found.' });
+            }
+        } catch (err) {
+            res.status(500).json({ success: false, message: 'Failed to register.' });
+        }
+    });
+
+    app.patch('/events/:id/unregister', async (req, res) => {
+        try {
+            const success = await EventsClass.decrement_registration_count(req.params.id);
+            if (success) {
+                res.json({ success: true, message: 'Unregistered successfully.' });
+            } else {
+                res.status(404).json({ success: false, message: 'Event not found.' });
+            }
+        } catch (err) {
+            res.status(500).json({ success: false, message: 'Failed to unregister.' });
+        }
+    });
+
+    app.patch('/events/archive', async (req, res) => {
+        try {
+            const result = await EventsClass.archive_past_events();
+            res.json(result);
+        } catch (err) {
+            res.status(500).json({ success: false, message: 'Failed to archive events.' });
+        }
+    });
+
+    
+
     app.listen(port, () => {
         console.log(`Server is running at http://localhost:${port}`);
     });
-    // Optional: Handle graceful shutdown
     process.on('SIGINT', async () => {
         await closeDBConnection();
         process.exit();
