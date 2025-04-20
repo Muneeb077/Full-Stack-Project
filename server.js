@@ -1,6 +1,6 @@
 import express from 'express';
 import { connectToDB, closeDBConnection } from './Database/database.mjs';
-import { UserClass } from './Dashboard Methods/user-dashboard.mjs';
+import { UserClass } from './Dashboard Methods/user-login.mjs';
 import dotenv from 'dotenv';
 
 dotenv.config()
@@ -21,7 +21,6 @@ connectToDB().then(() => {
         if (!name || !username || !password || !email) {
             return res.status(400).json({ success: false, message: 'Missing fields.' });
         }
-
         const user = new UserClass(name, username, password, email);
         try {
             const result = await user.constructor.register_user.call(user);
@@ -37,7 +36,6 @@ connectToDB().then(() => {
         if (!email || !prev_pass || !new_pass) {
             return res.status(400).json({ success: false, message: 'Missing fields.' });
         }
-
         try {
             const message = await UserClass.update_password(email, prev_pass, new_pass);
             res.json({ message });
@@ -52,7 +50,6 @@ connectToDB().then(() => {
         if (!email || !new_pass) {
             return res.status(400).json({ success: false, message: 'Missing fields.' });
         }
-
         try {
             const message = await UserClass.forgot_password(email, new_pass);
             res.json({ message });
@@ -99,7 +96,6 @@ connectToDB().then(() => {
         if (!email || !adminid || !new_pass) {
             return res.status(400).json({ success: false, message: 'Missing fields.' });
         }
-
         try {
             const result = await AdminClass.forgot_password(email, parseInt(adminid), new_pass);
             res.json(result);
@@ -111,13 +107,11 @@ connectToDB().then(() => {
     app.listen(port, () => {
         console.log(`Server is running at http://localhost:${port}`);
     });
-
     // Optional: Handle graceful shutdown
     process.on('SIGINT', async () => {
         await closeDBConnection();
         process.exit();
     });
-
 }).catch(err => {
     console.error('Failed to start server due to DB error:', err);
 });
