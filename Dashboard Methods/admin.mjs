@@ -52,11 +52,11 @@ export class AdminClass {
                 success: true,
                 message: 'Admin registered successfully.',
                 adminid: this.adminid,
-                email: this.email  // ADD THIS so your test can read it
+                email: this.email 
             };
     
-        } catch (err) {
-            console.error('Error in register_admin():', err);
+        } catch (error) {
+            console.error('Error in register_admin():', error);
             throw err; // re-throw to make the route return 500
         }
     }

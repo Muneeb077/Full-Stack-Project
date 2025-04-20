@@ -5,6 +5,7 @@ import { connectToDB, closeDBConnection } from './Database/database.mjs';
 import { UserClass } from './Dashboard Methods/user.mjs';
 import { AdminClass } from './Dashboard Methods/admin.mjs';
 import { EventsClass } from './Dashboard Methods/event.mjs';
+import { RegistrationClass } from './Dashboard Methods/registration.mjs';
 
 dotenv.config()
 
@@ -201,6 +202,39 @@ connectToDB().then(() => {
         }
     });
 
+    app.post('/register-to-event', async (req, res) => {
+        const { user_email, event_id } = req.body;
+    
+        if (!user_email || !event_id) {
+            return res.status(400).json({ success: false, message: 'Missing email or event ID.' });
+        }
+    
+        const registration = new RegistrationClass(user_email, event_id);
+        try {
+            const result = await registration.register_user(user_email, event_id);
+            res.json(result);
+        } catch (error) {
+            console.error('Error in /register-to-event:', error);
+            res.status(500).json({ success: false, message: 'Internal server error.' });
+        }
+    });
+    
+    app.patch('/cancel-registration', async (req, res) => {
+        const { user_email, event_id } = req.body;
+    
+        if (!user_email || !event_id) {
+            return res.status(400).json({ success: false, message: 'Missing email or event ID.' });
+        }
+    
+        const registration = new RegistrationClass(user_email, event_id);
+        try {
+            const result = await registration.cancel_registration(user_email, event_id);
+            res.json(result);
+        } catch (error) {
+            console.error('Error in /cancel-registration:', error);
+            res.status(500).json({ success: false, message: 'Internal server error.' });
+        }
+    });
     
 
     app.listen(port, () => {

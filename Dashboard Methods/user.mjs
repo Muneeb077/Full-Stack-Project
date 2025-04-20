@@ -99,4 +99,28 @@ export class UserClass {
             return 'Password reset failed. Please try again.';
         }
     }
+
+    static async find_user(identifier) {
+        try {
+            const collection = await user_db();
+            // Try to find user by username or email
+            const user = await collection.findOne({
+                $or: [
+                    { username: identifier },
+                    { email: identifier }
+                ]
+            });
+            if (!user) {
+                return { success: false, message: 'User not found.' };
+            }
+            // Optionally exclude sensitive info like password
+            const { password, ...userWithoutPassword } = user;
+            return { success: true, user: userWithoutPassword };
+    
+        } catch (error) {
+            console.error('Error finding user:', error);
+            return { success: false, message: 'An error occurred while searching for the user.' };
+        }
+    }
+    
 }

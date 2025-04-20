@@ -3,23 +3,24 @@ import { AdminClass } from "./admin.mjs";
 import { ObjectId } from "mongodb";
 
 export class EventsClass{
-
+    // Constructor to initialize a new event
     constructor(title, description, date, location, capacity){
         this.title = title;
         this.description = description;
         this.date = date;
         this.location = location;
         this.capacity = capacity;
-        this.status = 'active';
-        this.registered = 0;
+        this.status = 'active'; // Event status (active, completed, etc.)
+        this.registered = 0; // Number of registered users
         this.created_at = new Date();
         this.updated_at = new Date();
     }
 
+    // Method to create a new event and save to the DB
     async create_event(){
         try{
             const collection = await events_db();
-            await collection.insertOne({ ...this});
+            await collection.insertOne({ ...this}); // Insert the event object
             return { success: true, message: 'Event created successfully'};
         }catch(error){
             console.error('Error ehile creating event: ', error);
@@ -27,6 +28,7 @@ export class EventsClass{
         }
     }
 
+    // Static method to update an existing event by its ID
     static async update_event(eventId, updates) {
         try {
             const collection = await events_db();
@@ -45,6 +47,7 @@ export class EventsClass{
         }
     }
 
+    // Static method to delete an event by its ID
     static async delete_event(eventId) {
         try {
             const collection = await events_db();
@@ -59,6 +62,7 @@ export class EventsClass{
         }
     }
 
+    // Static method to fetch a single event by ID
     static async get_event_by_id(eventId) {
         try {
             const collection = await events_db();
@@ -71,6 +75,7 @@ export class EventsClass{
         }
     }
 
+    // Static method to get all events, with optional filters
     static async get_all_events(filters = {}) {
         try {
             const collection = await events_db();
@@ -82,6 +87,7 @@ export class EventsClass{
         }
     }
 
+    // Increment the number of registered users for an event
     static async increment_registration_count(eventId) {
         try {
             const collection = await events_db();
@@ -96,6 +102,7 @@ export class EventsClass{
         }
     }
 
+    // Decrement the number of registered users for an event
     static async decrement_registration_count(eventId) {
         try {
             const collection = await events_db();
@@ -110,6 +117,7 @@ export class EventsClass{
         }
     }
 
+    // Automatically archive past events (mark as completed)
     static async archive_past_events() {
         try {
             const collection = await events_db();
