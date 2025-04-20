@@ -1,6 +1,7 @@
 import express from 'express';
 import { connectToDB, closeDBConnection } from './Database/database.mjs';
-import { UserClass } from './Dashboard Methods/user-login.mjs';
+import { UserClass } from './Dashboard Methods/user.mjs';
+import { AdminClass } from './Dashboard Methods/admin.mjs';
 import dotenv from 'dotenv';
 
 dotenv.config()
