@@ -8,7 +8,7 @@ export class UserClass {
         this.username = username;
         this.password = password;
         this.email = email;
-        this.registration = 0;
+        // this.registration = 0;
     }
 
     static async register_user() {
@@ -120,6 +120,31 @@ export class UserClass {
         } catch (error) {
             console.error('Error finding user:', error);
             return { success: false, message: 'An error occurred while searching for the user.' };
+        }
+    }
+
+    static async login_user(username, password) {
+        try {
+            const collection = await user_db();
+            const user = await collection.findOne({ username });
+
+            if (!user) {
+                return { success: false, message: 'Invalid username or password.' };
+            }
+
+            const isPasswordValid = await bcrypt.compare(password, user.password);
+            if (!isPasswordValid) {
+                return { success: false, message: 'Invalid username or password.' };
+            }
+
+            // Optionally exclude password from response
+            const { password: pw, ...userWithoutPassword } = user;
+
+            return { success: true, message: 'Login successful.', user: userWithoutPassword };
+
+        } catch (error) {
+            console.error('Login failed:', error);
+            return { success: false, message: 'An error occurred during login.' };
         }
     }
     

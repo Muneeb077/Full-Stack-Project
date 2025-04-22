@@ -105,5 +105,34 @@ export class AdminClass {
             return { success: false, message: 'Password reset failed.' };
         }
     }
+
+    static async login_admin(email, password) {
+        try {
+            const collection = await admin_db();
+            const admin = await collection.findOne({ email });
+
+            if (!admin) {
+                return { success: false, message: 'Invalid email or password.' };
+            }
+
+            const isPasswordValid = await bcrypt.compare(password, admin.password);
+            if (!isPasswordValid) {
+                return { success: false, message: 'Invalid email or password.' };
+            }
+
+            // Optionally exclude the password from the returned admin info
+            const { password: pw, ...adminInfo } = admin;
+
+            return {
+                success: true,
+                message: 'Login successful.',
+                admin: adminInfo
+            };
+
+        } catch (error) {
+            console.error('Login failed:', error);
+            return { success: false, message: 'An error occurred during login.' };
+        }
+    }
     
 }

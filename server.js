@@ -18,6 +18,20 @@ app.use(express.json());
 connectToDB().then(() => {
     console.log('Server is starting...');
 
+    app.post('/login', async (req, res) => {
+        const { username, password } = req.body;
+        if (!username || !password) {
+          return res.status(400).json({ success: false, message: 'Missing fields.' });
+        }
+      
+        try {
+          const result = await UserClass.login_user(username, password);
+          res.json(result);
+        } catch (error) {
+          res.status(500).json({ message: 'Internal server error.' });
+        }
+      });
+      
     // Routes
     app.post('/register', async (req, res) => {
         const { name, username, password, email } = req.body;
