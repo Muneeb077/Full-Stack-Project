@@ -7,7 +7,7 @@ function Main_page() {
     <div>
       {/* Header */}
       <header style={headerStyle}>
-        <h1 style={{ margin: 0 }}>Event Management System</h1>
+        <h1 style={{ margin: 0 }}>EventArena</h1>
         <div>
           <button style={buttonStyle} onClick={() => navigate('/login')}>Login</button>
           <button style={buttonStyle} onClick={() => navigate('/register')}>Sign Up</button>
@@ -16,8 +16,9 @@ function Main_page() {
 
       {/* Main Body */}
       <main style={mainStyle}>
-        <h2>Welcome to Our Event Platform</h2>
-        <p>Login or Register to get started.</p>
+        <h2>Effortless Event Planning, Memorable Experiences</h2>
+        <p>Plan, manage, and elevate your events with ease - from intimate gathering to grand conferences, all in one powerful platform</p>
+        <button style={buttonview} onClick={()=> navigate('/EventPage')}>Explore Events</button>
       </main>
     </div>
   );
@@ -43,6 +44,12 @@ const buttonStyle = {
   cursor: 'pointer',
   fontWeight: 'bold'
 };
+
+const buttonview = {
+  backgroundColor: '#282c34',
+  fontWeight: 'bold',
+  color: 'white'
+}
 
 const mainStyle = {
   textAlign: 'center',
