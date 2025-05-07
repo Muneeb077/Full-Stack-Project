@@ -1,5 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import cors from 'cors';
 
 import { connectToDB, closeDBConnection } from './Database/database.mjs';
 import { UserClass } from './Dashboard Methods/user.mjs';
@@ -12,6 +13,7 @@ dotenv.config()
 const app = express();
 const port = 2800;
 
+app.use(cors());
 app.use(express.json());
 
 // Connect to MongoDB before starting the server
