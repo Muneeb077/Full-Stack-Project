@@ -43,60 +43,122 @@ function Register() {
   };
 
   return (
-    <div style={containerStyle}>
-      <form style={formStyle} onSubmit={handleSubmit}>
-        <h2 style={{ textAlign: 'center', marginBottom: '1rem' }}>Register</h2>
-        <input
-          name="name"
-          placeholder="Full Name"
-          value={formData.name}
-          onChange={handleChange}
-          style={inputStyle}
-        />
-        <input
-          name="username"
-          placeholder="Username"
-          value={formData.username}
-          onChange={handleChange}
-          style={inputStyle}
-        />
-        <input
-          name="email"
-          type="email"
-          placeholder="Email"
-          value={formData.email}
-          onChange={handleChange}
-          style={inputStyle}
-        />
-        <input
-          name="password"
-          type="password"
-          placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
-          style={inputStyle}
-        />
-        <button type="submit" style={registerButtonStyle}>
-          Sign Up
-        </button>
-        <button
-          type="button"
-          style={loginButtonStyle}
-          onClick={() => navigate('/login')}
-        >
-          Back to Login
-        </button>
-      </form>
+    <div style={heroContainer}>
+      <svg viewBox="0 0 1440 320" style={curveStyle}>
+          <path fill="#ffffff" fillOpacity="1" d="M0,224L1440,96L1440,320L0,320"></path>
+        </svg>
+      <div style={overlayStyle}></div>
+  
+      <header style={headerStyle}>
+        <button style={headerbuttonStyle} onClick={() => navigate('/')}>EventArena</button>
+      </header>
+  
+      <div style={containerStyle}>
+        <form style={formStyle} onSubmit={handleSubmit}>
+          <h2 style={{ textAlign: 'center', marginBottom: '1rem' }}>Register</h2>
+          <input
+            name="name"
+            placeholder="Full Name"
+            value={formData.name}
+            onChange={handleChange}
+            style={inputStyle}
+          />
+          <input
+            name="username"
+            placeholder="Username"
+            value={formData.username}
+            onChange={handleChange}
+            style={inputStyle}
+          />
+          <input
+            name="email"
+            type="email"
+            placeholder="Email"
+            value={formData.email}
+            onChange={handleChange}
+            style={inputStyle}
+          />
+          <input
+            name="password"
+            type="password"
+            placeholder="Password"
+            value={formData.password}
+            onChange={handleChange}
+            style={inputStyle}
+          />
+          <button type="submit" style={registerButtonStyle}>Sign Up</button>
+          <button
+            type="button"
+            style={loginButtonStyle}
+            onClick={() => navigate('/login')}
+          >
+            Back to Login
+          </button>
+        </form>
+      </div>
     </div>
   );
+  
 }
 
-const containerStyle = {
+const headerStyle = {
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  padding: '1rem 2rem',
+  fontSize: '2rem',
+  color: 'White',
+  fontWeight: 'bold',
+  backgroundColor: 'transparent',
+  zIndex: 2,
+};
+
+const headerbuttonStyle ={
+  background: 'none',
+  border: 'none',
+  color: 'inherit',
+  font: 'inherit',
+  cursor: 'pointer',
+  padding: 0,
+};
+
+const overlayStyle = {
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  height: '100%',
+  width: '100%',
+  backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  zIndex: 0,
+};
+
+const heroContainer = {
+  position: 'relative',
+  height: '100vh',
+  width: '100%',
+  backgroundImage: 'url("/Main_Page.png")',
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  height: '100vh',
-  backgroundColor: '#f0f2f5',
+};
+
+const curveStyle = {
+  position: 'absolute',
+  bottom: 0,
+  left: 0,
+  width: '100%',
+};
+
+const containerStyle = {
+  position: 'relative',
+  zIndex: 1,
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  height: '100%',
+  width: '100%',
 };
 
 const formStyle = {
