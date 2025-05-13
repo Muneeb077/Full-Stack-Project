@@ -8,4 +8,5 @@ const API = axios.create({
 export const login = (credentials) => API.post('/login', credentials);
 export const registerUser = (userData) => API.post('/register', userData);
 export const getEvents = () => API.get('/events');
+export const forgotPass = (newPassword) => API.put('/forgot-password',newPassword);
 export const createEvent = (eventData) => API.put('/event/create-event', eventData);
