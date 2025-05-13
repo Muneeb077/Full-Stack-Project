@@ -31,12 +31,19 @@ function Login() {
       <div style={overlayStyle}></div>
   
       <header style={headerStyle}>
-        <button style={headerbuttonStyle} onClick={() => navigate('/')}>EventArena</button>
+        <div style={logoContainerStyle} onClick={() => navigate('/')}>
+          <img src="/Main_logo.png" alt="Logo" style={logoImageStyle} />
+          <span style={logoTextStyle}>EventArena</span>
+        </div>
       </header>
 
       <div style={containerStyle}>
         <form style={formStyle} onSubmit={handleSubmit}>
-          <h2 style={{ textAlign: 'center', marginBottom: '1rem' }}>Login</h2>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <img src="/Logo.png" alt="Logo" style={{ height: '80px', width: '90px' }} />
+        </div>
+          <h2 style={{ textAlign: 'center', marginBottom: '1rem' }}>Welcome to EventArena</h2>
+
           <input
             style={inputStyle}
             placeholder="Username"
@@ -50,16 +57,35 @@ function Login() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+
+          <div style={{textAlign: 'left'}}>
+            <span onClick={() => navigate('/forgotpass')}
+              style={{
+                color:'#315d83',
+                cursor: 'pointer',
+                fontWeight: 'Bold',
+              }}>
+                Forgot Password ?
+            </span>
+          </div>
           <button type="submit" style={loginButtonStyle}>
             Login
           </button>
-          <button
-            type="button"
-            style={signupButtonStyle}
-            onClick={() => navigate('/register')}
-          >
-            Sign Up
-          </button>
+          <div style={{ textAlign: 'center'}}>
+            <p style={{ fontSize: '16px', color:'grey'}}>
+              Don't have an account?{' '}
+              <span
+                onClick={() => navigate('/register')}
+                style={{
+                  color: '#315d83',
+                  cursor: 'pointer',
+                  fontWeight: 'Bold',
+                }}
+              >
+                Register
+              </span>
+            </p>
+          </div>
         </form>
       </div>
     </div>
@@ -79,13 +105,21 @@ const headerStyle = {
   zIndex: 2,
 };
 
-const headerbuttonStyle ={
-  background: 'none',
-  border: 'none',
-  color: 'inherit',
-  font: 'inherit',
+const logoContainerStyle = {
+  display: 'flex',
+  alignItems: 'center',
   cursor: 'pointer',
-  padding: 0,
+};
+
+const logoImageStyle = {
+  height: '40px',
+  marginRight: '10px',
+};
+
+const logoTextStyle = {
+  fontSize: '2rem',
+  fontWeight: 'bold',
+  color: 'White',
 };
 
 const overlayStyle = {
@@ -130,15 +164,15 @@ const containerStyle = {
 const formStyle = {
   display: 'flex',
   flexDirection: 'column',
-  padding: '2rem',
+  padding: '3rem',
   backgroundColor: '#fff',
   borderRadius: '8px',
   boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-  width: '300px',
+  width: '350px',
 };
 
 const inputStyle = {
-  marginBottom: '1rem',
+  marginBottom: '0.7rem',
   padding: '0.75rem',
   border: '1px solid #ccc',
   borderRadius: '4px',
@@ -154,13 +188,7 @@ const buttonStyle = {
 
 const loginButtonStyle = {
   ...buttonStyle,
-  backgroundColor: '#007bff',
-  color: '#fff',
-};
-
-const signupButtonStyle = {
-  ...buttonStyle,
-  backgroundColor: '#6c757d',
+  backgroundColor: '#315d83',
   color: '#fff',
 };
 

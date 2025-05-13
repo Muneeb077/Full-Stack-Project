@@ -50,12 +50,19 @@ function Register() {
       <div style={overlayStyle}></div>
   
       <header style={headerStyle}>
-        <button style={headerbuttonStyle} onClick={() => navigate('/')}>EventArena</button>
+        <div style={logoContainerStyle} onClick={() => navigate('/')}>
+          <img src="/Main_logo.png" alt="Logo" style={logoImageStyle} />
+          <span style={logoTextStyle}>EventArena</span>
+        </div>
       </header>
   
       <div style={containerStyle}>
         <form style={formStyle} onSubmit={handleSubmit}>
-          <h2 style={{ textAlign: 'center', marginBottom: '1rem' }}>Register</h2>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <img src="/Logo.png" alt="Logo" style={{ height: '80px', width: '90px' }} />
+        </div>
+          <h2 style={{ textAlign: 'center', marginBottom: '-1rem' }}>Welcome to EventArena</h2>
+          <h4 style={{ textAlign: 'center', marginBottom: '1rem', fontWeight: 'normal'}}>Plan events with ease</h4>
           <input
             name="name"
             placeholder="Full Name"
@@ -86,14 +93,22 @@ function Register() {
             onChange={handleChange}
             style={inputStyle}
           />
-          <button type="submit" style={registerButtonStyle}>Sign Up</button>
-          <button
-            type="button"
-            style={loginButtonStyle}
-            onClick={() => navigate('/login')}
-          >
-            Back to Login
-          </button>
+          <button type="submit" style={registerButtonStyle}>Submit</button>
+          <div style={{ textAlign: 'center'}}>
+            <p style={{ fontSize: '16px', color:'grey'}}>
+              Already have an account?{' '}
+              <span
+                onClick={() => navigate('/login')}
+                style={{
+                  color: '#315d83',
+                  cursor: 'pointer',
+                  fontWeight: 'Bold',
+                }}
+              >
+                Login
+              </span>
+            </p>
+          </div>
         </form>
       </div>
     </div>
@@ -113,13 +128,21 @@ const headerStyle = {
   zIndex: 2,
 };
 
-const headerbuttonStyle ={
-  background: 'none',
-  border: 'none',
-  color: 'inherit',
-  font: 'inherit',
+const logoContainerStyle = {
+  display: 'flex',
+  alignItems: 'center',
   cursor: 'pointer',
-  padding: 0,
+};
+
+const logoImageStyle = {
+  height: '40px',
+  marginRight: '10px',
+};
+
+const logoTextStyle = {
+  fontSize: '2rem',
+  fontWeight: 'bold',
+  color: 'White',
 };
 
 const overlayStyle = {
@@ -164,11 +187,11 @@ const containerStyle = {
 const formStyle = {
   display: 'flex',
   flexDirection: 'column',
-  padding: '2rem',
+  padding: '3rem',
   backgroundColor: '#fff',
   borderRadius: '8px',
   boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-  width: '300px',
+  width: '350px',
 };
 
 const inputStyle = {
@@ -188,13 +211,7 @@ const buttonStyle = {
 
 const registerButtonStyle = {
   ...buttonStyle,
-  backgroundColor: '#28a745',
-  color: '#fff',
-};
-
-const loginButtonStyle = {
-  ...buttonStyle,
-  backgroundColor: '#6c757d',
+  backgroundColor: '#315d83',
   color: '#fff',
 };
 

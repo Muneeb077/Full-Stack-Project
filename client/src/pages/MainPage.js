@@ -7,7 +7,10 @@ function Main_page() {
     <div>
       
       <header style={headerStyle}>
-        <h1 style={logoStyle}>EventArena</h1>
+        <div style={logoContainerStyle} onClick={() => navigate('/')}>
+          <img src="/Main_logo.png" alt="Logo" style={logoImageStyle} />
+          <span style={logoTextStyle}>EventArena</span>
+        </div>
         <div style={navButtonsContainer}>
           <button style={buttonStyle} onClick={() => navigate('/login')}>Login</button>
           <button style={buttonStyle} onClick={() => navigate('/register')}>Sign Up</button>
@@ -43,9 +46,21 @@ const headerStyle = {
   zIndex: 10,
 };
 
-const logoStyle = {
-  margin: 0,
+const logoContainerStyle = {
+  display: 'flex',
+  alignItems: 'center',
+  cursor: 'pointer',
+};
+
+const logoImageStyle = {
+  height: '40px',
+  marginRight: '10px',
+};
+
+const logoTextStyle = {
   fontSize: '2rem',
+  fontWeight: 'bold',
+  color: 'White',
 };
 
 const navButtonsContainer = {
